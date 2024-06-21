@@ -15,10 +15,6 @@ import (
     "github.com/joho/godotenv"
 )
 
-const (
-    sepoliaEndpoint = "https://testnet.hashio.io/api" // "https://sepolia.infura.io/v3/ddb0c25acabf42389997d77c02ae261d"
-)
-
 func singleTest(sepoliaEndpoint, privateKeyName string, chain int64) {
     log.Printf("Running on %v", sepoliaEndpoint)
     err := godotenv.Load()
@@ -100,7 +96,14 @@ func singleTest(sepoliaEndpoint, privateKeyName string, chain int64) {
 }
 
 func main() {
-    singleTest("https://sepolia.infura.io/v3/{API_KEY}", "ETHEREUM_PRIVATE_KEY", 11155111)
-    singleTest("https://testnet.hashio.io/api", "OPERATOR_PRIVATE_KEY", 296)
+    err := godotenv.Load()
+    if err != nil {
+        log.Fatalf("Error loading .env file")
+    }
 
+    apiKey := os.Getenv("INFURA_API_KEY")
+    sepoliaEndpoint := "https://sepolia.infura.io/v3/" + apiKey
+
+    singleTest(sepoliaEndpoint, "ETHEREUM_PRIVATE_KEY", 11155111)
+    singleTest("https://testnet.hashio.io/api", "OPERATOR_PRIVATE_KEY", 296)
 }
