@@ -1,5 +1,5 @@
-# Hedera Golang Example Project
-An example on how to create a broken transaction with incorrect v on the Hedera network.
+# Hedera Golang Project Creating a Broken Legacy Transaction on Hedera network
+An example on how to create a broken legacy transaction with incorrect v on the Hedera network and comparing it to Ethereum network.
 
 In order to create the broken transaction on our own, we need to follow these steps:
 1. **Create and Send a Correct Transaction:** We have to ensure the transaction has a proper v value. If the v value is not correct, it will not be accepted by the hash.io or any other provider. Below are the error responses I’ve received:
