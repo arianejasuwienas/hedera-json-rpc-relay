@@ -1,12 +1,15 @@
 {
-  "name": "hardhat-project",
+  "name": "waffle-project",
   "scripts": {
-    "build": "waffle waffle.json"
+    "build": "waffle waffle.json",
+    "test": "NODE_ENV=test mocha"
   },
   "devDependencies": {
     "@hashgraph/hedera-local": "^2.22.0",
+    "chai": "^5.1.1",
     "dotenv": "^16.3.1",
-    "ethereum-waffle": "^4.0.10"
+    "ethereum-waffle": "^4.0.10",
+    "mocha": "^10.5.2"
   },
   "dependencies": {
     "@hashgraph/smart-contracts": "github:hashgraph/hedera-smart-contracts#11c5017c1867b3f31012163cdac0aafa4a30b60a",
