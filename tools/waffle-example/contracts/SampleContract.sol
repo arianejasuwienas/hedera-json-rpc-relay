@@ -4,11 +4,11 @@ pragma solidity ^0.8.0;
 contract SampleContract {
     event Notification(string message);
 
-    constructor() {
+    function emitEvent() public {
         emit Notification("Hello world!");
     }
 
-    function revertableFunction() public {
-        assert(false, "Reason");
+    function revertableFunction() pure public {
+        assert(false);
     }
 }

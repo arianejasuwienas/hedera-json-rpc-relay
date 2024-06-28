@@ -1,9 +1,10 @@
 {
   "name": "waffle-project",
   "scripts": {
-    "build": "waffle waffle.json",
+    "build": "waffle .waffle.json",
     "test": "NODE_ENV=test mocha"
   },
+  "type": "module",
   "devDependencies": {
     "@hashgraph/hedera-local": "^2.22.0",
     "chai": "^5.1.1",
