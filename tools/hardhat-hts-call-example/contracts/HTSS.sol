@@ -8,10 +8,6 @@ import "./HederaResponseCodes.sol";
 contract HTSS is HederaTokenService {
 
     function tokenAssociate(address tokenAddress) external {
-        int response = HederaTokenService.associateToken(msg.sender, tokenAddress);
-
-        if (response != HederaResponseCodes.SUCCESS) {
-            revert ("Associate Failed");
-        }
+        HederaTokenService.associateToken(msg.sender, tokenAddress);
     }
 }

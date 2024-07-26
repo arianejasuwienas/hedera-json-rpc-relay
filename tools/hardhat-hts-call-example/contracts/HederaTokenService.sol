@@ -7,7 +7,7 @@ import "./IHederaTokenService.sol";
 
 abstract contract HederaTokenService is HederaResponseCodes {
 
-    address constant precompileAddress = 0x0000000000000000000000000000000000000167;
+    address constant precompileAddress = address(0x167);
     // 90 days in seconds
     uint32 constant defaultAutoRenewPeriod = 7776000;
 
