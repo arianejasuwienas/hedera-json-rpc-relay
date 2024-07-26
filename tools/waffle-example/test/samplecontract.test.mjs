@@ -21,7 +21,10 @@
 import { expect, use } from 'chai';
 import dotenv from 'dotenv';
 import { providers, Wallet } from 'ethers';
-import { createFixtureLoader, deployContract, solidity } from 'ethereum-waffle';
+import { deployContract, solidity } from 'ethereum-waffle';
+import { MockProvider } from "ethereum-waffle";
+
+
 
 import SampleContract from '../build/SampleContract.json' assert { type: "json" };
 
@@ -30,6 +33,34 @@ const { JsonRpcProvider } = providers;
 
 const provider = new JsonRpcProvider(process.env.RELAY_ENDPOINT);
 const loadFixture = createFixtureLoader([new Wallet(process.env.OPERATOR_PRIVATE_KEY, provider)]);
+
+
+export function createFixtureLoader(overrideWallets) {
+    const snapshots = [];
+
+    return async function load(fixture) {
+        console.error('Attempt');
+        const snapshot = snapshots.find((snapshot) => snapshot.fixture === fixture);
+        if (snapshot) {
+            console.error('Found');
+            await snapshot.provider.send('evm_revert', [snapshot.id]);
+            snapshot.id = await snapshot.provider.send('evm_snapshot', []);
+            return snapshot.data;
+        } else {
+            console.error('Not found ;(');
+            const provider = new MockProvider();
+            const wallets = overrideWallets ?? provider.getWallets();
+
+            const data = await fixture(wallets, provider);
+            const id = await provider.send('evm_snapshot', []);
+
+            snapshots.push({fixture, data, id, provider, wallets});
+            return data;
+        }
+    };
+}
+
+
 
 use(solidity); // use mocha matchers
 

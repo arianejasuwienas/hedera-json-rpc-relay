@@ -21,12 +21,13 @@
 const hre = require('hardhat');
 
 module.exports = async () => {
-  const [walletClient] = await hre.viem.getWalletClients();
-  const publicClient = await hre.viem.getPublicClient();
-  const balance = await publicClient.getBalance({
-    address: walletClient.account.address,
-  });
-  console.log(`The address ${walletClient.account.address} has ${balance} weibars`);
+  //Deploy contract providing
+  //name of contract as first parameter
+  //array with constructor parameters from our contract as the second one
+  //We use wait to receive the transaction (deployment) receipt, which contains contractAddress
+  const greeter = await hre.viem.deployContract("HTSS", []);
 
-  return balance;
+  console.log(`HTS deployed to: ${greeter.address}`);
+
+  return greeter.address;
 };

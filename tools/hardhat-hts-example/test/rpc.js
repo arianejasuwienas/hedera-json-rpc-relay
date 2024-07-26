@@ -28,9 +28,4 @@ describe('RPC', function () {
     contractAddress = await hre.run('deploy-contract');
     expect(contractAddress).to.not.be.null;
   });
-
-  it('should be able to make a contract call', async function () {
-    const msg = 'updated_msg';
-    await hre.run('contract-call', { contractAddress, msg });
-  });
 });

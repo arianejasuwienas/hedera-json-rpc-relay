@@ -19,18 +19,15 @@
  */
 
 const hre = require('hardhat');
-const { expect } = require('chai');
 
-describe('RPC', function () {
-  let contractAddress;
+module.exports = async () => {
+  //Deploy contract providing
+  //name of contract as first parameter
+  //array with constructor parameters from our contract as the second one
+  //We use wait to receive the transaction (deployment) receipt, which contains contractAddress
+  const greeter = await hre.viem.deployContract("TokenManager", []);
 
-  it('should be able to deploy a contract', async function () {
-    contractAddress = await hre.run('deploy-contract');
-    expect(contractAddress).to.not.be.null;
-  });
+  console.log(`TokenManager deployed to: ${greeter.address}`);
 
-  it('should be able to make a contract call', async function () {
-    const msg = 'updated_msg';
-    await hre.run('contract-call', { contractAddress, msg });
-  });
-});
+  return greeter.address;
+};
