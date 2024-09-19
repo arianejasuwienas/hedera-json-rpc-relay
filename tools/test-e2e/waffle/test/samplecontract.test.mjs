@@ -20,7 +20,7 @@
 
 import { expect, use } from 'chai';
 import dotenv from 'dotenv';
-import { providers, Wallet, ContractFactory } from 'ethers';
+import { providers, Wallet, ContractFactory, ethers } from 'ethers';
 import { createFixtureLoader } from 'ethereum-waffle';
 
 import IERC20Contract from '../build/IERC20.json' assert { type: "json" };
@@ -28,11 +28,9 @@ import IERC20Contract from '../build/IERC20.json' assert { type: "json" };
 dotenv.config();
 const { JsonRpcProvider } = providers;
 
-
-const usdcAddress = '0x0000000000000000000000000000000000068cDa';
-const alice = '0x4D1c823b5f15bE83FDf5adAF137c2a9e0E78fE15';
+const usdcAddress = process.env.ERC20_TOKEN_ADDRESS;
 const bob = '0x0000000000000000000000000000000000000887';
-const initialAliceBalance = 49_300000;
+
 describe('RPC', () => {
     let loadFixture;
     let fixture;
@@ -47,13 +45,17 @@ describe('RPC', () => {
 
     it('should have initial balance', async () => {
         const contract = await loadFixture(fixture);
-        expect(await contract.balanceOf([alice])).to.equal(initialAliceBalance);
-        await contract.transfer([alice, initialAliceBalance]); // We transfer everything out.
-        expect(await contract.balanceOf([bob])).to.equal(0);
+        expect((await contract.balanceOf(wallet.address)).toNumber()).to.not.equal(
+          0,
+          `Please use an account with a non-zero ${usdcAddress} token balance for this test to function correctly.`
+        );
+        const currentBalance = await contract.balanceOf(wallet.address);
+        await contract.transfer(bob, currentBalance.toNumber()); // We transfer everything out.
+        expect((await contract.balanceOf(wallet.address)).toNumber()).to.equal(0);
     });
 
-    it('should have initial balance again!', async () => {
+    it('should have some initial balance again!', async () => {
         const contract = await loadFixture(fixture);
-        expect(await contract.balanceOf([alice])).to.equal(initialAliceBalance);
+        expect((await contract.balanceOf(wallet.address)).toNumber()).to.not.equal(0);
     });
 });
