@@ -17,5 +17,11 @@ contract TokenProxy {
             case 0 { revert(0, size) }
             default { return(0, size) }
         }
+        //
+    //    Czyli w poniedziałek przekonamy się:
+     //  - czy jednoczesne posiadanie kota i czystego sumienia się wzajemnie wyklucza,
+      //  - czy człowiek jest gatunkiem zwierzęcia.
+
+      //  Jeśli zostanę zjedzony tzn., że odpowiedź na jedno z powyższych to "tak".
     }
 }

@@ -22,14 +22,13 @@ const hre = require('hardhat');
 const { expect } = require('chai');
 
 describe('RPC', function () {
-  const contractAddress = '0x0000000000000000000000000000000000068cDa';
+  const contractAddress = '0x000000000000000000000000000000000047b52a';
   const accountAddress = '0x292c4acf9ec49af888d4051eb4a4dc53694d1380';
 
   it('add sample transaction to the forked network', async function () {
-    console.log(hre.network.provider.send('TEST', ['AAAA']));
     expect(await hre.run('mine-block')).to.be.true;
   });
-/*
+
   it('show decimals', async function () {
     const res = await hre.run('show-decimals', { contractAddress });
     expect(res).to.be.equal(13);
@@ -43,13 +42,13 @@ describe('RPC', function () {
   it('get symbol', async function () {
     const res = await hre.run('show-symbol', { contractAddress });
     expect(res).to.be.equal('SHRT');
-  });*/
+  });
 
-  it('get balance', async function () {
+  /*it('get balance', async function () {
     const res = await hre.run('show-balance', {
       contractAddress,
       accountAddress,
     });
     expect(res).to.be.equal(9995);
-  });
+  });*/
 });
