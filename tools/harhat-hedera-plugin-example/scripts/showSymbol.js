@@ -21,14 +21,7 @@
 const hre = require('hardhat');
 
 module.exports = async (address) => {
-    //Assign the greeter contract object in a variable, this is used for already deployed contract, which we have the address for. ethers.getContractAt accepts:
-    //name of contract as first parameter
-    //address of our contract
-    const ft = await hre.viem.getContractAt('HtsSystemContract', address);
-    //using the greeter object(which is our contract) we can call functions from the contract. In this case we call greet which returns our greeting msg
-    const callRes = await ft.read.symbol();
+    const ft = await hre.viem.getContractAt('IERC20', address);
 
-    console.log(`Symbol: ${callRes}`);
-
-    return callRes;
+    return await ft.read.symbol();
 };

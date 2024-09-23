@@ -1,5 +1,6 @@
 require("@nomicfoundation/hardhat-toolbox-viem");
 require("@nomicfoundation/hardhat-chai-matchers");
+require("arianejasuwienas-hardhat-hedera");
 const { task } = require("hardhat/config");
 
 // Import dotenv module to access variables stored in the .env file
@@ -31,6 +32,11 @@ task("mine-block", async () => {
 });
 
 
+task("show-allowance", async (taskArgs) => {
+  const showAllowance = require("./scripts/showAllowance");
+  return showAllowance(taskArgs.contractAddress, taskArgs.accountAddress, taskArgs.spenderAddress);
+});
+
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   mocha: {
@@ -50,9 +56,35 @@ module.exports = {
   networks: {
     local: {
       // Your Hedera Local Node address pulled from the .env file
-      url: process.env.FORKED_NETWORK_ENDPOINT,
+      url: process.env.LOCAL_NODE_ENDPOINT,
       // Conditionally assign accounts when private key value is present
-      accounts: process.env.FORKED_NETWORK_NODE_OPERATOR_PRIVATE_KEY ? [process.env.FORKED_NETWORK_NODE_OPERATOR_PRIVATE_KEY] : []
+      accounts: process.env.LOCAL_NODE_OPERATOR_PRIVATE_KEY ? [process.env.LOCAL_NODE_OPERATOR_PRIVATE_KEY] : []
+    },
+    testnet: {
+      // HashIO testnet endpoint
+      url: 'https://testnet.hashio.io/api',
+      // Conditionally assign accounts when private key value is present
+      accounts: process.env.TESTNET_OPERATOR_PRIVATE_KEY ? [process.env.TESTNET_OPERATOR_PRIVATE_KEY] : []
+    },
+
+    /**
+     * Uncomment the following to add a mainnet network configuration
+     */
+    mainnet: {
+      // HashIO mainnet endpoint
+      url: 'https://mainnet.hashio.io/api',
+      // Conditionally assign accounts when private key value is present
+      accounts: process.env.MAINNET_OPERATOR_PRIVATE_KEY ? [process.env.MAINNET_OPERATOR_PRIVATE_KEY] : []
+    },
+
+    /**
+     * Uncomment the following to add a previewnet network configuration
+     */
+    previewnet: {
+      // HashIO previewnet endpoint
+      url:'https://previewnet.hashio.io/api',
+      // Conditionally assign accounts when private key value is present
+      accounts: process.env.PREVIEWNET_OPERATOR_PRIVATE_KEY ? [process.env.PREVIEWNET_OPERATOR_PRIVATE_KEY] : []
     }
   }
 };

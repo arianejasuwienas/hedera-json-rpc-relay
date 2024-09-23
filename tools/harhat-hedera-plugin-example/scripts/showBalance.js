@@ -21,10 +21,7 @@
 const hre = require('hardhat');
 
 module.exports = async (contractAddress, accountAddress) => {
-  const ft = await hre.viem.getContractAt('HtsSystemContract', contractAddress);
-  const callRes = await ft.read.balanceOf([accountAddress]);
+  const ft = await hre.viem.getContractAt('IERC20', contractAddress);
 
-  console.log(`Balance of: ${callRes}`);
-
-  return callRes;
+  return await ft.read.balanceOf([accountAddress]);
 };

@@ -24,6 +24,7 @@ const { expect } = require('chai');
 describe('RPC', function () {
   const contractAddress = '0x000000000000000000000000000000000047b52a';
   const accountAddress = '0x292c4acf9ec49af888d4051eb4a4dc53694d1380';
+  const spenderAddress = '0x000000000000000000000000000000000043f832';
 
  it('add sample transaction to the forked network', async function () {
     expect(await hre.run('mine-block')).to.be.true;
@@ -50,5 +51,14 @@ describe('RPC', function () {
       accountAddress,
     });
     expect(res).to.be.equal(9995);
+  });
+
+  it('get allowance', async function () {
+    const res = await hre.run('show-allowance', {
+      contractAddress,
+      accountAddress,
+      spenderAddress,
+    });
+    expect(res).to.be.equal(13);
   });
 });
